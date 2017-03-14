@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace HttpTwo
 {
-    public class Http2MessageHandler : HttpMessageHandler
+    public class Http2MessageHandler : WinHttpHandler
     {
         public Http2MessageHandler () : base ()
         {
             connections = new Dictionary<string, Http2Client> ();
+            ServerCertificateValidationCallback = (senderX, certificate, chain, sslPolicyErrors) => true;
         }
 
         readonly Dictionary<string, Http2Client> connections;
@@ -23,7 +24,7 @@ namespace HttpTwo
 
             if (!connections.ContainsKey (key)) 
                 connections.Add (key, new Http2Client (
-                    new Http2ConnectionSettings (request.RequestUri.Host, (uint)request.RequestUri.Port, request.RequestUri.Scheme == Uri.UriSchemeHttps)));
+                    new Http2ConnectionSettings (request.RequestUri.Host, (uint)request.RequestUri.Port, request.RequestUri.Scheme.Equals("https", StringComparison.CurrentCultureIgnoreCase))));
 
             var client = connections [key];
 
@@ -44,7 +45,7 @@ namespace HttpTwo
             var httpResponseMsg = new HttpResponseMessage (response.Status);
 
             foreach (var h in response.Headers.AllKeys) {
-                if (!h.StartsWith (":", StringComparison.InvariantCultureIgnoreCase))
+                if (!h.StartsWith (":", StringComparison.CurrentCultureIgnoreCase))
                     httpResponseMsg.Headers.TryAddWithoutValidation (h, response.Headers [h]);
             }
 

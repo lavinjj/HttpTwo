@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using HttpTwo.Internal;
+using System.Net.Http;
 
 namespace HttpTwo
 {
@@ -20,7 +21,7 @@ namespace HttpTwo
         }
 
         public Http2ConnectionSettings (Uri uri,  X509CertificateCollection certificates = null)
-            : this (uri.Host, (uint)uri.Port, uri.Scheme == Uri.UriSchemeHttps, certificates)
+            : this (uri.Host, (uint)uri.Port, uri.Scheme.Equals("https", StringComparison.CurrentCultureIgnoreCase), certificates)
         {
         }
 
@@ -47,8 +48,7 @@ namespace HttpTwo
 
         static Http2Connection ()
         {
-            ServicePointManager.ServerCertificateValidationCallback += 
-                (sender, certificate, chain, sslPolicyErrors) => true;
+            // moved ServerCertificateValidationCallback to Http2MessageHandler
         }
 
         public Http2Connection (Http2ConnectionSettings connectionSettings, IStreamManager streamManager, IFlowControlManager flowControlManager)
@@ -151,18 +151,18 @@ namespace HttpTwo
             // everything
 
             // Analysis disable EmptyGeneralCatchClause
-            try { clientStream.Close (); } catch { }
+            // try { clientStream.Close (); } catch { } // .Close not available in dotnet core
             try { clientStream.Dispose (); } catch { }
 
             if (ConnectionSettings.UseTls && sslStream != null) {
-                try { sslStream.Close (); } catch { }
+                // try { sslStream.Close (); } catch { }  // .Close not available in dotnet core
                 try { sslStream.Dispose (); } catch { }
             }
 
             try { tcp.Client.Shutdown (SocketShutdown.Both); } catch { }
             try { tcp.Client.Dispose (); } catch { }
 
-            try { tcp.Close (); } catch { }
+            // try { tcp.Close (); } catch { } // .Close not available in dotnet core
             // Analysis restore EmptyGeneralCatchClause
 
             tcp = null;

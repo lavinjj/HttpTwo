@@ -116,7 +116,7 @@ namespace HttpTwo
                 if ( i * maxFrameSize + amt > headerData.Length)
                     amt = (uint)headerData.Length - (uint)(i * maxFrameSize);
                 frame.HeaderBlockFragment = new byte[amt];
-                Array.Copy (headerData, i * maxFrameSize, frame.HeaderBlockFragment, 0, amt);
+                Array.Copy (headerData, (int)(i * maxFrameSize), frame.HeaderBlockFragment, 0, (int)amt);
 
                 // If we won't s end 
                 if (data == null && frame is HeadersFrame) {

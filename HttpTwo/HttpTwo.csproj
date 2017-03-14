@@ -1,69 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DC2F25D9-75BE-4C67-B41D-84B738A16B9F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>HttpTwo</RootNamespace>
-    <AssemblyName>HttpTwo</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Net.Http" />
+    <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
+    <PackageReference Include="System.Net.Http.WinHttpHandler" Version="4.3.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Frames\Frame.cs" />
-    <Compile Include="Frames\SettingsFrame.cs" />
-    <Compile Include="Frames\DataFrame.cs" />
-    <Compile Include="Frames\GoAwayFrame.cs" />
-    <Compile Include="Frames\HeadersFrame.cs" />
-    <Compile Include="Frames\PingFrame.cs" />
-    <Compile Include="Http2Connection.cs" />
-    <Compile Include="Http2Client.cs" />
-    <Compile Include="Http2MessageHandler.cs" />
-    <Compile Include="Frames\RstStreamFrame.cs" />
-    <Compile Include="Frames\WindowUpdateFrame.cs" />
-    <Compile Include="Frames\ContinuationFrame.cs" />
-    <Compile Include="Frames\PriorityFrame.cs" />
-    <Compile Include="Frames\PushPromiseFrame.cs" />
-    <Compile Include="Http2Settings.cs" />
-    <Compile Include="Http2Stream.cs" />
-    <Compile Include="Internal\FlowControlManager.cs" />
-    <Compile Include="Internal\FrameQueue.cs" />
-    <Compile Include="Internal\Logging.cs" />
-    <Compile Include="Internal\StreamManager.cs" />
-    <Compile Include="Internal\Util.cs" />
+    <ProjectReference Include="..\HttpTwo.HPack\HttpTwo.HPack.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Frames\" />
-    <Folder Include="Internal\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HttpTwo.HPack\HttpTwo.HPack.csproj">
-      <Project>{C75A83BB-7EF1-4CDB-8C52-9E6E3E11341D}</Project>
-      <Name>HttpTwo.HPack</Name>
-    </ProjectReference>
-  </ItemGroup>
+
 </Project>

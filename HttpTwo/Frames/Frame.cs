@@ -168,7 +168,7 @@ namespace HttpTwo
 
             // Isolate the payload data
             var payloadData = new byte[frameLength];
-            Array.Copy (data, 9, payloadData, 0, frameLength);
+            Array.Copy (data, 9, payloadData, 0, (int)frameLength);
 
             ParsePayload (payloadData, frameHeader);
         }
